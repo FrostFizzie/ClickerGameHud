@@ -1,29 +1,25 @@
 package com.frostfizzie.clickergamehud.Features;
 
-import com.google.common.collect.Iterables;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Display;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityTypes;
+
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
-import org.joml.Matrix3dStack;
-import org.joml.Matrix3x2fStack;
+
 
 import java.awt.*;
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static com.frostfizzie.clickergamehud.client._1ClickerGameHUDClient.component;
@@ -45,17 +41,14 @@ public class TagViewer extends Feature {
         if (IP == null) return;
         if (!Objects.equals(IP, "148.113.223.138:25565")) return;
         assert Minecraft.getInstance().level != null;
-        Iterable<Display.BlockDisplay> entities = Minecraft.getInstance().level.getEntitiesOfClass(Display.BlockDisplay.class, AABB.of(BoundingBox.fromCorners(new Vec3i(108007, 51, 2007), new Vec3i(108008, 51, 2008))));
-        for (Entity entity : entities) {
-                 if (client.gui.hud.getTabList().clickergamehud$getFooter() != null) {
+        List<Display.BlockDisplay> entities = Minecraft.getInstance().level.getEntitiesOfClass(Display.BlockDisplay.class, AABB.of(BoundingBox.fromCorners(new Vec3i(108007, 51, 2007), new Vec3i(108008, 51, 2008))));
+                 if (!entities.isEmpty() && client.gui.hud.getTabList().clickergamehud$getFooter() != null) {
                      String rawFooter = MiniMessage.miniMessage().serialize(component(client.gui.hud.getTabList().clickergamehud$getFooter()));
                         prefix = rawFooter.length() > 1 ? miniMessage(rawFooter.split("<br>")[1]) : null;
-                        break;
                             }
                 else {
                         prefix = null;
                         }
-                    }
     }
     @Override
     public void hudRender(GuiGraphicsExtractor draw, DeltaTracker counter) {
